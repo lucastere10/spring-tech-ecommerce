@@ -9,6 +9,8 @@ import br.com.tech.springtech.domain.Enum.UsuarioStatus;
 import br.com.tech.springtech.domain.Enum.UsuarioTipo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +27,7 @@ public class Usuario {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long usuarioId;
 
 	@Column(nullable = false)
     private String nome;
@@ -33,13 +35,15 @@ public class Usuario {
 	@Column(nullable = false)
     private String email;
 
-    	@Column(nullable = false)
+    @Column(nullable = false)
     private String senha;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UsuarioTipo usuarioTipo;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UsuarioStatus usuarioStatus;
 
     @CreationTimestamp

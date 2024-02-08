@@ -1,5 +1,7 @@
 package br.com.tech.springtech.domain.model;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -20,20 +22,20 @@ public class ProdutoPedido {
  @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer produtoPedidoId;
 
 
     @Column(nullable = false)
     private Long quantidade;
 
     @Column(nullable = false)
-    private Long precoUnitario;
+    private BigDecimal precoUnitario;
 
     @Column(nullable = false)
-    private Long precoTotal;
+    private BigDecimal precoTotal;
 
     @Column()
-    private Long desconto;
+    private BigDecimal desconto;
     
     @ManyToOne
     @JoinColumn(name = "produto_id")

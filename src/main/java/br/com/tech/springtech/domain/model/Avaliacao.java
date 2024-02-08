@@ -25,10 +25,12 @@ public class Avaliacao {
         @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long avaliacaoId;
     
+    @Column()
     private String comentario;
 
+    @Column(nullable = false)
     private Long nota;
 
     @CreationTimestamp

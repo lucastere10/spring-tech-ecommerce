@@ -1,6 +1,8 @@
 package br.com.tech.springtech.domain.model;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,16 +29,16 @@ public class Pedido {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long pedidoId;
 
     @Column(nullable = false)
     private PedidoStatus pedidoStatus;
 
     @Column(nullable = false)
-    private Long valor;
+    private BigDecimal valor;
 
     @Column
-    private Long desconto;
+    private BigDecimal desconto;
 
     @Column(nullable = false)
     private String endereco;
@@ -52,5 +55,8 @@ public class Pedido {
     @JoinColumn(name = "usuario_id")
     @JsonBackReference
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "pedido")
+    private List<ProdutoPedido> produtoPedido;
 
 }

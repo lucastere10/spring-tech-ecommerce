@@ -1,8 +1,8 @@
 package br.com.tech.springtech.domain.Enum;
 
-public enum UsuarioTipo {
+public enum ProdutoTipo {
     
-    ADMIN,
-    CLIENTE;
+    ATIVO,
+    INATIVO;
 
 }

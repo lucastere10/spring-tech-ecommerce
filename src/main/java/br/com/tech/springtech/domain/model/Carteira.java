@@ -1,9 +1,9 @@
 package br.com.tech.springtech.domain.model;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,18 +23,18 @@ public class Carteira {
     	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long carteiraId;
 
     @Column
-    private Long saldo;
+    private BigDecimal saldo;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataCadastro;
 
-    @UpdateTimestamp
-    @Column(nullable = false, columnDefinition = "datetime")
-    private OffsetDateTime dataAtualizacao;
+    // @UpdateTimestamp
+    // @Column(nullable = false, columnDefinition = "datetime")
+    // private OffsetDateTime dataAtualizacao;
 
     @OneToOne
     @JoinColumn(name = "usuario_id")

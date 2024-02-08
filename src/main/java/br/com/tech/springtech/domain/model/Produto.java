@@ -2,6 +2,7 @@ package br.com.tech.springtech.domain.model;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,8 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -24,13 +24,13 @@ public class Produto {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long produtoId;
 
     @Column(nullable = false)
     private String nome;
 
     @Column()
-    private String descriaco;
+    private String descricao;
 
     @Column(nullable = false)
     private BigDecimal preco;
@@ -43,12 +43,10 @@ public class Produto {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataAtualizacao;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private ProdutoCarrinho produtoCarrinho;
+    @OneToMany(mappedBy = "produto")
+    private List<ProdutoCarrinho> produtoCarrinho;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private ProdutoPedido produtoPedido;
+    @OneToMany(mappedBy = "produto")
+    private List<ProdutoPedido> produtoPedido;
 
 }

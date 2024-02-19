@@ -37,7 +37,7 @@ CREATE TABLE carrinho (
     CONSTRAINT fk_carrinho_usuario FOREIGN KEY (usuario_id) REFERENCES usuario (usuario_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-CREATE TABLE Pedido (
+CREATE TABLE pedido (
     pedido_id BIGINT NOT NULL AUTO_INCREMENT,
     usuario_id BIGINT NOT NULL,
     valor DECIMAL(10, 2),

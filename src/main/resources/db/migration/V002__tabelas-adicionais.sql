@@ -20,7 +20,7 @@ CREATE TABLE produto_pedido (
     CONSTRAINT fk_produto_pedido_pedido FOREIGN KEY (pedido_id) REFERENCES pedido (pedido_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-CREATE TABLE Avaliacao(
+CREATE TABLE avaliacao(
     avaliacao_id BIGINT NOT NULL AUTO_INCREMENT,
     usuario_id BIGINT NOT NULL,
     produto_id BIGINT NOT NULL,

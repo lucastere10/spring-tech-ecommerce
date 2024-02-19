@@ -1,0 +1,27 @@
+version: "3.9"
+
+networks:
+  springtech-network:
+    driver: bridge
+
+services:
+  springtech-mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+    ports:
+      - "3307:3306"
+    networks:
+      - springtech-network
+  
+  springtech-api:
+    image: springtech-api
+    command: ["/wait-for-it.sh", "-t", "30", "springtech-mysql:3306", "--", "java", "-jar", "api.jar" ]
+    environment:
+      DB_HOST: springtech-mysql
+    ports:
+      - "8080:8080"
+    networks:
+      - springtech-network
+    depends_on:
+      - springtech-mysql

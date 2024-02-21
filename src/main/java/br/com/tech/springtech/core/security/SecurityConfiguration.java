@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                         // .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         // .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         // .requestMatchers(HttpMethod.POST, "/produtos").hasRole("ADMIN")
+                        // .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         // .anyRequest().authenticated()
                         .anyRequest().permitAll()
                         )

@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
 import br.com.tech.springtech.api.dto.model.UsuarioModel;
 import br.com.tech.springtech.core.security.AuthorizationService;
+import br.com.tech.springtech.domain.exception.ProdutoNaoEncontradoException;
 import br.com.tech.springtech.domain.exception.UsuarioNaoEncontradoException;
 import br.com.tech.springtech.domain.model.Carrinho;
 import br.com.tech.springtech.domain.model.Carteira;
@@ -65,5 +67,16 @@ public class CadastroUsuarioService {
     return usuarioRepository.findById(usuarioId)
         .orElseThrow(() -> new UsuarioNaoEncontradoException(usuarioId));
   }
+
+  @Transactional
+    public void excluir(Long usuarioId) {
+        try {
+            usuarioRepository.deleteById(usuarioId);
+            usuarioRepository.flush();
+
+        } catch (EmptyResultDataAccessException e) {
+            throw new UsuarioNaoEncontradoException(usuarioId);
+        }
+    }
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.tech.springtech.api.openapi.AuthenticationControllerOpenApi;
 import br.com.tech.springtech.domain.enums.UsuarioStatus;
 import br.com.tech.springtech.domain.model.Carrinho;
 import br.com.tech.springtech.domain.model.Carteira;
@@ -24,7 +25,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthenticationController {
+public class AuthenticationController implements AuthenticationControllerOpenApi {
 
     @Autowired
     private AuthenticationManager authenticationManager;

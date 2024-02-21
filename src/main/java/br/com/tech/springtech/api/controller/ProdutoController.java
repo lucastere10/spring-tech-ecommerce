@@ -23,13 +23,14 @@ import br.com.tech.springtech.api.assembler.ProdutoInputDisassembler;
 import br.com.tech.springtech.api.assembler.ProdutoModelAssembler;
 import br.com.tech.springtech.api.dto.input.ProdutoInput;
 import br.com.tech.springtech.api.dto.model.ProdutoModel;
+import br.com.tech.springtech.api.openapi.ProdutoControllerOpenApi;
 import br.com.tech.springtech.domain.model.Produto;
 import br.com.tech.springtech.domain.repository.ProdutoRepository;
 import br.com.tech.springtech.domain.service.CadastroProdutoService;
 
 @RestController
 @RequestMapping(value = "/produtos")
-public class ProdutoController {
+public class ProdutoController implements ProdutoControllerOpenApi {
 
     @Autowired
     private ProdutoRepository produtoRepository;

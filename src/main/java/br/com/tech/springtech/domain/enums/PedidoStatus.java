@@ -1,4 +1,4 @@
-package br.com.tech.springtech.domain.Enum;
+package br.com.tech.springtech.domain.enums;
 
 import java.util.Arrays;
 import java.util.List;

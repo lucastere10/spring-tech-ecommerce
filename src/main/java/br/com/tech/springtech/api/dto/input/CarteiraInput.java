@@ -2,6 +2,7 @@ package br.com.tech.springtech.api.dto.input;
 
 import java.math.BigDecimal;
 
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class CarteiraInput {
 
+    @Positive
     private BigDecimal valor;
-
 
 }

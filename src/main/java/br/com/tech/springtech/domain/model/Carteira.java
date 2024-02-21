@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,9 +33,9 @@ public class Carteira {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataCadastro;
 
-    // @UpdateTimestamp
-    // @Column(nullable = false, columnDefinition = "datetime")
-    // private OffsetDateTime dataAtualizacao;
+    @UpdateTimestamp
+    @Column(nullable = false, columnDefinition = "datetime")
+    private OffsetDateTime dataAtualizacao;
 
     @OneToOne
     @JoinColumn(name = "usuario_id")

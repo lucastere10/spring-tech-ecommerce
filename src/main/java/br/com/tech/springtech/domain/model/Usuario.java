@@ -5,12 +5,13 @@ import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.tech.springtech.domain.Enum.UsuarioStatus;
-import br.com.tech.springtech.domain.Enum.UsuarioTipo;
+import br.com.tech.springtech.domain.enums.UsuarioStatus;
+import br.com.tech.springtech.domain.enums.UsuarioTipo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,6 +21,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,12 +35,15 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long usuarioId;
 
-	@Column(nullable = false)
+    @NotNull
+    @Column(nullable = false)
     private String nome;
 
-	@Column(nullable = false)
+    @NotNull
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @NotNull
     @Column(nullable = false)
     private String senha;
 
@@ -54,6 +59,10 @@ public class Usuario implements UserDetails {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataCadastro;
 
+    @UpdateTimestamp
+    @Column(nullable = false, columnDefinition = "datetime")
+    private OffsetDateTime dataAtualizacao;
+
     @OneToOne(mappedBy = "usuario")
     private Carteira carteira;
 
@@ -67,9 +76,9 @@ public class Usuario implements UserDetails {
     private Carrinho carrinho;
 
     public Usuario() {
-    }    
+    }
 
-    public Usuario(String nome, String login, String senha, UsuarioTipo usuarioTipo){
+    public Usuario(String nome, String login, String senha, UsuarioTipo usuarioTipo) {
         this.nome = nome;
         this.email = login;
         this.senha = senha;
@@ -86,8 +95,10 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.usuarioTipo == UsuarioTipo.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.usuarioTipo == UsuarioTipo.ADMIN)
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
@@ -104,17 +115,17 @@ public class Usuario implements UserDetails {
     public boolean isAccountNonExpired() {
         return true;
     }
-    
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-    
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-    
+
     @Override
     public boolean isEnabled() {
         return true;

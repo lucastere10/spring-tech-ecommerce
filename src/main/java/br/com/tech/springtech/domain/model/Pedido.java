@@ -9,7 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import br.com.tech.springtech.domain.Enum.PedidoStatus;
+import br.com.tech.springtech.domain.enums.PedidoStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -40,6 +41,7 @@ public class Pedido {
     @Column
     private BigDecimal desconto;
 
+    @NotNull
     @Column(nullable = false)
     private String endereco;
 

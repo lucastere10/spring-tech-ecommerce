@@ -2,9 +2,15 @@ package br.com.tech.springtech.domain.service;
 
 import java.math.BigDecimal;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
+import br.com.tech.springtech.api.dto.model.UsuarioModel;
+import br.com.tech.springtech.core.security.AuthorizationService;
+import br.com.tech.springtech.domain.exception.UsuarioNaoEncontradoException;
 import br.com.tech.springtech.domain.model.Carrinho;
 import br.com.tech.springtech.domain.model.Carteira;
 import br.com.tech.springtech.domain.model.Usuario;
@@ -24,6 +30,12 @@ public class CadastroUsuarioService {
 
   @Autowired
   CarteiraRepository carteiraRepository;
+
+  @Autowired
+  private ModelMapper mapper;
+
+  @Autowired
+  private AuthorizationService authorizationService;
 
   @Transactional
   public Usuario salvar(Usuario usuario) {
@@ -51,7 +63,7 @@ public class CadastroUsuarioService {
 
   public Usuario buscarOuFalhar(Long usuarioId) {
     return usuarioRepository.findById(usuarioId)
-        .orElseThrow();
+        .orElseThrow(() -> new UsuarioNaoEncontradoException(usuarioId));
   }
 
 }

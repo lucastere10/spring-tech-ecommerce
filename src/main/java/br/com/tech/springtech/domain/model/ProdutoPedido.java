@@ -24,7 +24,6 @@ public class ProdutoPedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer produtoPedidoId;
 
-
     @Column(nullable = false)
     private Long quantidade;
 

@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.tech.springtech.domain.Enum.UsuarioStatus;
+import br.com.tech.springtech.domain.enums.UsuarioStatus;
 import br.com.tech.springtech.domain.model.Carrinho;
 import br.com.tech.springtech.domain.model.Carteira;
 import br.com.tech.springtech.domain.model.Usuario;
 import br.com.tech.springtech.domain.repository.CarrinhoRepository;
 import br.com.tech.springtech.domain.repository.CarteiraRepository;
 import br.com.tech.springtech.domain.repository.UsuarioRepository;
-import ch.qos.logback.core.subst.Token;
+import br.com.tech.springtech.domain.service.CadastroUsuarioService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -31,6 +31,9 @@ public class AuthenticationController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private CadastroUsuarioService usuarioService;
 
     @Autowired
     private CarrinhoRepository carrinhoRepository;

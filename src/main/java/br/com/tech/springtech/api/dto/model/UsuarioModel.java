@@ -1,7 +1,7 @@
 package br.com.tech.springtech.api.dto.model;
 
-import br.com.tech.springtech.domain.Enum.UsuarioStatus;
-import br.com.tech.springtech.domain.Enum.UsuarioTipo;
+import br.com.tech.springtech.domain.enums.UsuarioStatus;
+import br.com.tech.springtech.domain.enums.UsuarioTipo;
 import lombok.Getter;
 import lombok.Setter;
 

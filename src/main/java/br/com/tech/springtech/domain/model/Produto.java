@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,12 +27,14 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long produtoId;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column(nullable = false, unique = true)
     private String nome;
 
     @Column()
     private String descricao;
 
+    @NotNull
     @Column(nullable = false)
     private BigDecimal preco;
 

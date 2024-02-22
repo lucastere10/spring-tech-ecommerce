@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,13 +24,14 @@ import br.com.tech.springtech.api.assembler.UsuarioModelAssembler;
 import br.com.tech.springtech.api.dto.input.UsuarioComSenhaInput;
 import br.com.tech.springtech.api.dto.input.UsuarioInput;
 import br.com.tech.springtech.api.dto.model.UsuarioModel;
+import br.com.tech.springtech.api.openapi.UsuarioControllerOpenApi;
 import br.com.tech.springtech.domain.model.Usuario;
 import br.com.tech.springtech.domain.repository.UsuarioRepository;
 import br.com.tech.springtech.domain.service.CadastroUsuarioService;
 
 @RestController
 @RequestMapping(value = "/usuarios")
-public class UsuarioController {
+public class UsuarioController implements UsuarioControllerOpenApi {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -79,5 +81,11 @@ public class UsuarioController {
 
         return usuarioModelAssembler.toModel(usuarioAtual);
     }
+
+    @DeleteMapping(value = "/{usuarioId}", produces = {})
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long usuarioId) {
+		cadastroUsuario.excluir(usuarioId);
+	}
 
 }

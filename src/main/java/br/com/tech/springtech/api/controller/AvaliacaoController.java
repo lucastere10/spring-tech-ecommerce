@@ -22,13 +22,14 @@ import br.com.tech.springtech.api.assembler.AvaliacaoInputDisassembler;
 import br.com.tech.springtech.api.assembler.AvaliacaoModelAssembler;
 import br.com.tech.springtech.api.dto.input.AvaliacaoInput;
 import br.com.tech.springtech.api.dto.model.AvaliacaoModel;
+import br.com.tech.springtech.api.openapi.AvaliacaoControllerOpenApi;
 import br.com.tech.springtech.domain.model.Avaliacao;
 import br.com.tech.springtech.domain.repository.AvaliacaoRepository;
 import br.com.tech.springtech.domain.service.CadastroAvaliacaoService;
 
 @RestController
 @RequestMapping(value = "/avaliacoes")
-public class AvaliacaoController {
+public class AvaliacaoController implements AvaliacaoControllerOpenApi {
     
     @Autowired
     private AvaliacaoRepository avaliacaoRepository;
@@ -43,7 +44,7 @@ public class AvaliacaoController {
     private AvaliacaoInputDisassembler avaliacaoInputDisassembler;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<AvaliacaoModel> listar(@PageableDefault(size = 10) Pageable pageable) {
+    public Page<AvaliacaoModel> listar(@PageableDefault(size = 20, page = 0) Pageable pageable) {
         Page<Avaliacao> avaliacoesPage = avaliacaoRepository.findAll(pageable);
 
 		List<AvaliacaoModel> avaliacoesModel = avaliacaoModelAssembler

@@ -16,13 +16,14 @@ import br.com.tech.springtech.api.assembler.CarteiraInputDisassembler;
 import br.com.tech.springtech.api.assembler.CarteiraModelAssembler;
 import br.com.tech.springtech.api.dto.input.CarteiraInput;
 import br.com.tech.springtech.api.dto.model.CarteiraModel;
+import br.com.tech.springtech.api.openapi.CarteiraControllerOpenApi;
 import br.com.tech.springtech.domain.model.Carteira;
 import br.com.tech.springtech.domain.repository.CarteiraRepository;
 import br.com.tech.springtech.domain.service.CarteiraService;
 
 @RestController
 @RequestMapping("/carteiras")
-public class CarteiraController {
+public class CarteiraController implements CarteiraControllerOpenApi {
 
     @Autowired
     private CarteiraService carteiraService;

@@ -17,9 +17,11 @@ import br.com.tech.springtech.api.assembler.CarteiraModelAssembler;
 import br.com.tech.springtech.api.dto.input.CarteiraInput;
 import br.com.tech.springtech.api.dto.model.CarteiraModel;
 import br.com.tech.springtech.api.openapi.CarteiraControllerOpenApi;
+import br.com.tech.springtech.domain.exception.SaldoInsuficienteException;
 import br.com.tech.springtech.domain.model.Carteira;
 import br.com.tech.springtech.domain.repository.CarteiraRepository;
 import br.com.tech.springtech.domain.service.CarteiraService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/carteiras")
@@ -57,7 +59,7 @@ public class CarteiraController implements CarteiraControllerOpenApi {
 
     @PutMapping("/{carteiraId}/deposito")
     public ResponseEntity<Void> adicionarSaldo(@PathVariable Long carteiraId,
-            @RequestBody CarteiraInput carteiraInput) {
+            @RequestBody @Valid CarteiraInput carteiraInput) {
         BigDecimal valor = carteiraInput.getValor();
         carteiraService.adicionarSaldo(carteiraId, valor);
         return ResponseEntity.noContent().build();
@@ -65,10 +67,14 @@ public class CarteiraController implements CarteiraControllerOpenApi {
 
     @PutMapping("/{carteiraId}/saque")
     public ResponseEntity<Void> removerSaldo(@PathVariable Long carteiraId,
-            @RequestBody CarteiraInput carteiraInput) {
-        BigDecimal valor = carteiraInput.getValor();
-        carteiraService.removerSaldo(carteiraId, valor);
-        return ResponseEntity.noContent().build();
+            @RequestBody @Valid CarteiraInput carteiraInput) {
+        try {
+            BigDecimal valor = carteiraInput.getValor();
+            carteiraService.removerSaldo(carteiraId, valor);
+            return ResponseEntity.noContent().build();
+        } catch (SaldoInsuficienteException e) {
+            throw new SaldoInsuficienteException(e.getMessage());
+        }
     }
 
 }

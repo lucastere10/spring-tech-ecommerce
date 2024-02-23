@@ -51,7 +51,7 @@ insert into carrinho (carrinho_id, usuario_id, valor) values
 (4, 4, 332.00),
 (5, 5, 970.00);
 
-insert into pedido (pedido_id, usuario_id, valor, status_pedido, desconto, endereco, data_cadastro, data_atualizacao) values
+insert into pedido (pedido_id, usuario_id, valor, pedido_status, desconto, endereco, data_cadastro, data_atualizacao) values
 (1, 1, 8810.00, "ENTREGUE", 0, "Rua das Flores, 123", utc_timestamp, utc_timestamp),
 (2, 3, 75.00, "ENTREGUE", 0, "Rua das Marmotas, 456", utc_timestamp, utc_timestamp),
 (3, 5, 2799.00, "ENTREGUE", 0, "Rua das Frutas, 789", utc_timestamp, utc_timestamp),

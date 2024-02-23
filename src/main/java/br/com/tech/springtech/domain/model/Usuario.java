@@ -10,6 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import br.com.tech.springtech.domain.enums.UsuarioStatus;
 import br.com.tech.springtech.domain.enums.UsuarioTipo;
 import jakarta.persistence.Column;
@@ -63,6 +65,7 @@ public class Usuario implements UserDetails {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataAtualizacao;
 
+    @JsonManagedReference
     @OneToOne(mappedBy = "usuario")
     private Carteira carteira;
 

@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import br.com.tech.springtech.domain.enums.PedidoStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,6 +34,7 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pedidoId;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PedidoStatus pedidoStatus;
 
@@ -55,7 +58,6 @@ public class Pedido {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    @JsonBackReference
     private Usuario usuario;
 
     @OneToMany(mappedBy = "pedido")

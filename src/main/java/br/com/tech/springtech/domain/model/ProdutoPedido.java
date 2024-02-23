@@ -22,7 +22,7 @@ public class ProdutoPedido {
  @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer produtoPedidoId;
+    private Long produtoPedidoId;
 
     @Column(nullable = false)
     private Long quantidade;

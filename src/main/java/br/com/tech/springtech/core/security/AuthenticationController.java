@@ -6,12 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.tech.springtech.api.assembler.UsuarioModelAssembler;
+import br.com.tech.springtech.api.dto.model.UsuarioModel;
 import br.com.tech.springtech.api.openapi.AuthenticationControllerOpenApi;
 import br.com.tech.springtech.domain.enums.UsuarioStatus;
 import br.com.tech.springtech.domain.model.Carrinho;
@@ -32,6 +36,9 @@ public class AuthenticationController implements AuthenticationControllerOpenApi
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioModelAssembler usuarioModelAssembler;
 
     @Autowired
     private CadastroUsuarioService usuarioService;
@@ -60,7 +67,7 @@ public class AuthenticationController implements AuthenticationControllerOpenApi
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         Usuario usuario = new Usuario(data.nome(), data.login(), encryptedPassword, data.role());
-        
+
         usuario.setUsuarioStatus(UsuarioStatus.ATIVO);
 
         this.usuarioRepository.save(usuario);
@@ -79,13 +86,18 @@ public class AuthenticationController implements AuthenticationControllerOpenApi
         carrinho = carrinhoRepository.save(carrinho);
         carteira = carteiraRepository.save(carteira);
 
-
         // Set the Carrinho and Carteira to the Usuario and save again
         usuario.setCarrinho(carrinho);
         usuario.setCarteira(carteira);
         usuarioRepository.save(usuario);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<UsuarioModel> currentUser(@AuthenticationPrincipal Usuario usuario) {
+        UsuarioModel usuarioModel = usuarioModelAssembler.toModel(usuario);
+        return ResponseEntity.ok(usuarioModel);
     }
 
 }

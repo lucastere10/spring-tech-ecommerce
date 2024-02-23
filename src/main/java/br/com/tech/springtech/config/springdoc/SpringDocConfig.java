@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.tech.springtech.api.exceptionhandler.Problem;
 import io.swagger.v3.core.converter.ModelConverters;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -26,6 +27,12 @@ import io.swagger.v3.oas.models.media.Content;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Configuration
+@io.swagger.v3.oas.annotations.security.SecurityScheme(
+  name = "Bearer Authentication",
+  type = SecuritySchemeType.HTTP,
+  bearerFormat = "JWT",
+  scheme = "bearer"
+)
 public class SpringDocConfig {
 
         private static final String badRequestResponse = "BadRequestResponse";
@@ -36,11 +43,11 @@ public class SpringDocConfig {
         @Bean
         public OpenAPI openAPI() {
                 return new OpenAPI()
-                                .components(new Components()
-                                                .addSecuritySchemes("bearerAuth", new SecurityScheme()
-                                                                .type(SecurityScheme.Type.HTTP)
-                                                                .scheme("bearer")
-                                                                .bearerFormat("JWT")))
+                                // .components(new Components()
+                                //                 .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                                //                                 .type(SecurityScheme.Type.HTTP)
+                                //                                 .scheme("bearer")
+                                //                                 .bearerFormat("JWT")))
                                 .info(new Info()
                                                 .title("Springtech")
                                                 .version("0.1v")

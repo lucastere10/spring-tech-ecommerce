@@ -6,6 +6,8 @@ import java.time.OffsetDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +39,7 @@ public class Carteira {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataAtualizacao;
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

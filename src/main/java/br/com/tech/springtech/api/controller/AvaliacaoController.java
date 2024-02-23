@@ -26,6 +26,7 @@ import br.com.tech.springtech.api.openapi.AvaliacaoControllerOpenApi;
 import br.com.tech.springtech.domain.model.Avaliacao;
 import br.com.tech.springtech.domain.repository.AvaliacaoRepository;
 import br.com.tech.springtech.domain.service.CadastroAvaliacaoService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/avaliacoes")
@@ -63,7 +64,7 @@ public class AvaliacaoController implements AvaliacaoControllerOpenApi {
 	
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public AvaliacaoModel adicionar(@RequestBody AvaliacaoInput avaliacaoInput) {
+    public AvaliacaoModel adicionar(@RequestBody @Valid AvaliacaoInput avaliacaoInput) {
         Avaliacao avaliacao = avaliacaoInputDisassembler.toDomainObject(avaliacaoInput);
         avaliacao = cadastroAvaliacao.salvar(avaliacao, avaliacaoInput);
 
@@ -72,7 +73,7 @@ public class AvaliacaoController implements AvaliacaoControllerOpenApi {
 
     @PutMapping(value = "/{avaliacaoId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public AvaliacaoModel atualizar(@PathVariable Long avaliacaoId,
-            @RequestBody AvaliacaoInput avaliacaoInput) {
+            @RequestBody @Valid AvaliacaoInput avaliacaoInput) {
         Avaliacao avaliacaoAtual = cadastroAvaliacao.buscar(avaliacaoId);
         avaliacaoInputDisassembler.copyToDomainObject(avaliacaoInput, avaliacaoAtual);
         avaliacaoAtual = cadastroAvaliacao.salvar(avaliacaoAtual, avaliacaoInput);

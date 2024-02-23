@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.tech.springtech.api.dto.input.AvaliacaoInput;
 import br.com.tech.springtech.domain.exception.AvaliacaoNaoEncontradoExcecption;
-import br.com.tech.springtech.domain.exception.ProdutoNaoEncontradoException;
 import br.com.tech.springtech.domain.model.Avaliacao;
 import br.com.tech.springtech.domain.model.Produto;
 import br.com.tech.springtech.domain.model.Usuario;

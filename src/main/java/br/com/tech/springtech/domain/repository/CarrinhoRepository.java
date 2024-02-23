@@ -8,4 +8,6 @@ import br.com.tech.springtech.domain.model.Carrinho;
 @Repository
 public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
 
+    
+
 }

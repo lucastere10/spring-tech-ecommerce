@@ -1,7 +1,7 @@
 CREATE TABLE usuario (
     usuario_id BIGINT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
     usuario_tipo VARCHAR(255) NOT NULL,
     usuario_status VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE carteira (
 
 CREATE TABLE produto (
     produto_id BIGINT NOT NULL AUTO_INCREMENT,
-    nome VARCHAR(255) NOT NULL,
+    nome VARCHAR(255) NOT NULL UNIQUE,
     descricao VARCHAR(255),
     imagem_url VARCHAR(255),
     preco DECIMAL(10, 2),
@@ -41,7 +41,7 @@ CREATE TABLE pedido (
     pedido_id BIGINT NOT NULL AUTO_INCREMENT,
     usuario_id BIGINT NOT NULL,
     valor DECIMAL(10, 2),
-    status_pedido VARCHAR(255) NOT NULL,
+    pedido_status VARCHAR(255) NOT NULL,
     desconto DECIMAL(10, 2),
     endereco VARCHAR(255),
     data_cadastro DATETIME NOT NULL,

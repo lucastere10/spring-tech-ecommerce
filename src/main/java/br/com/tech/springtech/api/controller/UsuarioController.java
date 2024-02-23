@@ -19,15 +19,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.tech.springtech.api.assembler.CarrinhoModelAssembler;
 import br.com.tech.springtech.api.assembler.UsuarioInputDisassembler;
 import br.com.tech.springtech.api.assembler.UsuarioModelAssembler;
 import br.com.tech.springtech.api.dto.input.UsuarioComSenhaInput;
 import br.com.tech.springtech.api.dto.input.UsuarioInput;
+import br.com.tech.springtech.api.dto.model.CarrinhoModel;
 import br.com.tech.springtech.api.dto.model.UsuarioModel;
 import br.com.tech.springtech.api.openapi.UsuarioControllerOpenApi;
+import br.com.tech.springtech.domain.model.Carrinho;
 import br.com.tech.springtech.domain.model.Usuario;
 import br.com.tech.springtech.domain.repository.UsuarioRepository;
 import br.com.tech.springtech.domain.service.CadastroUsuarioService;
+import br.com.tech.springtech.domain.service.CarrinhoService;
 
 @RestController
 @RequestMapping(value = "/usuarios")
@@ -45,15 +49,21 @@ public class UsuarioController implements UsuarioControllerOpenApi {
     @Autowired
     private UsuarioInputDisassembler usuarioInputDisassembler;
 
+    @Autowired
+    private CarrinhoService carrinhoService;
+
+    @Autowired
+    private CarrinhoModelAssembler carrinhoModelAssembler;
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<UsuarioModel> listar(@PageableDefault(size = 10) Pageable pageable) {
         Page<Usuario> usuariosPage = usuarioRepository.findAll(pageable);
 
-		List<UsuarioModel> usuariosModel = usuarioModelAssembler
-				.toCollectionModel(usuariosPage.getContent());
+        List<UsuarioModel> usuariosModel = usuarioModelAssembler
+                .toCollectionModel(usuariosPage.getContent());
 
-		return new PageImpl<>(usuariosModel, pageable,
-				usuariosPage.getTotalElements());
+        return new PageImpl<>(usuariosModel, pageable,
+                usuariosPage.getTotalElements());
     }
 
     @GetMapping(value = "/{usuarioId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -83,9 +93,48 @@ public class UsuarioController implements UsuarioControllerOpenApi {
     }
 
     @DeleteMapping(value = "/{usuarioId}", produces = {})
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long usuarioId) {
-		cadastroUsuario.excluir(usuarioId);
-	}
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long usuarioId) {
+        cadastroUsuario.excluir(usuarioId);
+    }
+
+    @GetMapping(value = "/carrinho/{usuarioId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CarrinhoModel buscarCarrinho(@PathVariable Long usuarioId) {
+        Carrinho carrinho = carrinhoService.buscar(usuarioId);
+
+        return carrinhoModelAssembler.toModel(carrinho);
+    }
+
+    @PutMapping(value = "/status/ativar/{usuarioId}")
+    public UsuarioModel ativar(@PathVariable Long usuarioId) {
+        Usuario usuarioAtual = cadastroUsuario.buscarOuFalhar(usuarioId);
+        usuarioAtual = cadastroUsuario.ativarUsuario(usuarioAtual);
+
+        return usuarioModelAssembler.toModel(usuarioAtual);
+    }
+
+    @PutMapping(value = "/status/desativar/{usuarioId}")
+    public UsuarioModel desativar(@PathVariable Long usuarioId) {
+        Usuario usuarioAtual = cadastroUsuario.buscarOuFalhar(usuarioId);
+        usuarioAtual = cadastroUsuario.desativarUsuario(usuarioAtual);
+
+        return usuarioModelAssembler.toModel(usuarioAtual);
+    }
+
+    @PutMapping(value = "/status/banir/{usuarioId}")
+    public UsuarioModel banir(@PathVariable Long usuarioId) {
+        Usuario usuarioAtual = cadastroUsuario.buscarOuFalhar(usuarioId);
+        usuarioAtual = cadastroUsuario.banirUsuario(usuarioAtual);
+
+        return usuarioModelAssembler.toModel(usuarioAtual);
+    }
+
+    @PutMapping(value = "/status/bloquear/{usuarioId}")
+    public UsuarioModel bloquear(@PathVariable Long usuarioId) {
+        Usuario usuarioAtual = cadastroUsuario.buscarOuFalhar(usuarioId);
+        usuarioAtual = cadastroUsuario.bloquearUsuario(usuarioAtual);
+
+        return usuarioModelAssembler.toModel(usuarioAtual);
+    }
 
 }

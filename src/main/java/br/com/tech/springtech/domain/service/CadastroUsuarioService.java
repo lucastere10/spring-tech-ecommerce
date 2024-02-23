@@ -5,13 +5,9 @@ import java.math.BigDecimal;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
-
-import br.com.tech.springtech.api.dto.model.UsuarioModel;
 import br.com.tech.springtech.core.security.AuthorizationService;
-import br.com.tech.springtech.domain.exception.ProdutoNaoEncontradoException;
+import br.com.tech.springtech.domain.enums.UsuarioStatus;
 import br.com.tech.springtech.domain.exception.UsuarioNaoEncontradoException;
 import br.com.tech.springtech.domain.model.Carrinho;
 import br.com.tech.springtech.domain.model.Carteira;
@@ -77,6 +73,26 @@ public class CadastroUsuarioService {
         } catch (EmptyResultDataAccessException e) {
             throw new UsuarioNaoEncontradoException(usuarioId);
         }
+    }
+
+    public Usuario ativarUsuario(Usuario usuario) {
+        usuario.setUsuarioStatus(UsuarioStatus.ATIVO);
+        return usuarioRepository.save(usuario);
+    }
+
+    public Usuario desativarUsuario(Usuario usuario) {
+        usuario.setUsuarioStatus(UsuarioStatus.INATIVO);
+        return usuarioRepository.save(usuario);
+    }
+
+    public Usuario banirUsuario(Usuario usuario) {
+        usuario.setUsuarioStatus(UsuarioStatus.BANIDO);
+        return usuarioRepository.save(usuario);
+    }
+
+    public Usuario bloquearUsuario(Usuario usuario) {
+        usuario.setUsuarioStatus(UsuarioStatus.BLOQUEADO);
+        return usuarioRepository.save(usuario);
     }
 
 }

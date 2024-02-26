@@ -1,5 +1,5 @@
 package br.com.tech.springtech;
 
-public class CadastroProdutoIT {
+public class CarteiraIT {
     
 }

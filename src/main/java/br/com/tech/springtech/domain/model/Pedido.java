@@ -7,8 +7,6 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import br.com.tech.springtech.domain.enums.PedidoStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -3,14 +3,8 @@ package br.com.tech.springtech.api.openapi;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 import br.com.tech.springtech.api.dto.input.ProdutoInput;
 import br.com.tech.springtech.api.dto.input.QuantidadeProdutoInput;
 import br.com.tech.springtech.api.dto.model.ProdutoCarrinhoModel;
@@ -24,7 +18,6 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 
 @Tag(name = "Produtos", description = "Endpoints de produtos")
 public interface ProdutoControllerOpenApi {

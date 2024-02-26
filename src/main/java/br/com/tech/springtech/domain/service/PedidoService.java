@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.tech.springtech.domain.enums.PedidoStatus;
-import br.com.tech.springtech.domain.enums.UsuarioStatus;
 import br.com.tech.springtech.domain.exception.PedidoNaoEncontradoException;
 import br.com.tech.springtech.domain.exception.UsuarioNaoEncontradoException;
 import br.com.tech.springtech.domain.model.Carrinho;

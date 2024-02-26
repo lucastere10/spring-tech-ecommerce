@@ -1,5 +1,6 @@
 package br.com.tech.springtech.api.exceptionhandler;
 
+import java.nio.file.AccessDeniedException;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

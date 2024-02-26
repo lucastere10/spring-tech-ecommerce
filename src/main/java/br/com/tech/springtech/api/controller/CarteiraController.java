@@ -36,9 +36,6 @@ public class CarteiraController implements CarteiraControllerOpenApi {
     @Autowired
     private CarteiraModelAssembler carteiraModelAssembler;
 
-    @Autowired
-    private CarteiraInputDisassembler carteiraInputDisassembler;
-
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<CarteiraModel> listar(@PageableDefault(size = 10) Pageable pageable) {
         Page<Carteira> carteirasPage = carteiraRepository.findAll(pageable);

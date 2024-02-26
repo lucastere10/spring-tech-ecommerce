@@ -18,6 +18,7 @@ import br.com.tech.springtech.api.assembler.UsuarioModelAssembler;
 import br.com.tech.springtech.api.dto.model.UsuarioModel;
 import br.com.tech.springtech.api.openapi.AuthenticationControllerOpenApi;
 import br.com.tech.springtech.domain.enums.UsuarioStatus;
+import br.com.tech.springtech.domain.exception.NegocioException;
 import br.com.tech.springtech.domain.model.Carrinho;
 import br.com.tech.springtech.domain.model.Carteira;
 import br.com.tech.springtech.domain.model.Usuario;
@@ -41,9 +42,6 @@ public class AuthenticationController implements AuthenticationControllerOpenApi
     private UsuarioModelAssembler usuarioModelAssembler;
 
     @Autowired
-    private CadastroUsuarioService usuarioService;
-
-    @Autowired
     private CarrinhoRepository carrinhoRepository;
 
     @Autowired
@@ -63,7 +61,8 @@ public class AuthenticationController implements AuthenticationControllerOpenApi
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data) {
         if (this.usuarioRepository.findLoginByEmail(data.login()) != null)
-            return ResponseEntity.badRequest().build();
+            throw new NegocioException(
+					String.format("Já existe um usuário cadastrado com o e-mail %s", data.login()));
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         Usuario usuario = new Usuario(data.nome(), data.login(), encryptedPassword, data.role());

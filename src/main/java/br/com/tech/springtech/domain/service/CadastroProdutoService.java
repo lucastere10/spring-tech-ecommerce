@@ -1,11 +1,9 @@
 package br.com.tech.springtech.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import br.com.tech.springtech.domain.exception.EntidadeEmUsoException;
 import br.com.tech.springtech.domain.exception.ProdutoNaoEncontradoException;
 import br.com.tech.springtech.domain.model.Produto;
 import br.com.tech.springtech.domain.repository.ProdutoRepository;

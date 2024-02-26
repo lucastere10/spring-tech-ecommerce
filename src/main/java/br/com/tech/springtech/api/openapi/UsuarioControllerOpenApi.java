@@ -3,8 +3,6 @@ package br.com.tech.springtech.api.openapi;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import br.com.tech.springtech.api.dto.input.UsuarioComSenhaInput;

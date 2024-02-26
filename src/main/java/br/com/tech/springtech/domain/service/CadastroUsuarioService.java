@@ -2,11 +2,9 @@ package br.com.tech.springtech.domain.service;
 
 import java.math.BigDecimal;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import br.com.tech.springtech.core.security.AuthorizationService;
 import br.com.tech.springtech.domain.enums.UsuarioStatus;
 import br.com.tech.springtech.domain.exception.UsuarioNaoEncontradoException;
 import br.com.tech.springtech.domain.model.Carrinho;
@@ -28,12 +26,6 @@ public class CadastroUsuarioService {
 
   @Autowired
   CarteiraRepository carteiraRepository;
-
-  @Autowired
-  private ModelMapper mapper;
-
-  @Autowired
-  private AuthorizationService authorizationService;
 
   @Transactional
   public Usuario salvar(Usuario usuario) {

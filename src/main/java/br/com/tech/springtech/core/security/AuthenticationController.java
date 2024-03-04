@@ -3,11 +3,14 @@ package br.com.tech.springtech.core.security;
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +21,7 @@ import br.com.tech.springtech.api.assembler.UsuarioModelAssembler;
 import br.com.tech.springtech.api.dto.model.UsuarioModel;
 import br.com.tech.springtech.api.openapi.AuthenticationControllerOpenApi;
 import br.com.tech.springtech.domain.enums.UsuarioStatus;
+import br.com.tech.springtech.domain.exception.AcessoNegadoException;
 import br.com.tech.springtech.domain.exception.NegocioException;
 import br.com.tech.springtech.domain.model.Carrinho;
 import br.com.tech.springtech.domain.model.Carteira;
@@ -29,7 +33,7 @@ import br.com.tech.springtech.domain.service.CadastroUsuarioService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthenticationController implements AuthenticationControllerOpenApi {
 
     @Autowired
@@ -52,17 +56,24 @@ public class AuthenticationController implements AuthenticationControllerOpenApi
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+            var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+            return ResponseEntity.ok(new LoginResponseDTO(token));
+        } catch (AuthenticationException e) {
+            // Handle unsuccessful login attempt here
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new AcessoNegadoException("Credenciais não encontradas"));
+        }
     }
 
     @PostMapping("/register")
+    @CrossOrigin(origins = "http://localhost:3000/")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data) {
         if (this.usuarioRepository.findLoginByEmail(data.login()) != null)
             throw new NegocioException(
-					String.format("Já existe um usuário cadastrado com o e-mail %s", data.login()));
+                    String.format("Já existe um usuário cadastrado com o e-mail %s", data.login()));
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         Usuario usuario = new Usuario(data.nome(), data.login(), encryptedPassword, data.role());
@@ -94,6 +105,7 @@ public class AuthenticationController implements AuthenticationControllerOpenApi
     }
 
     @GetMapping("/user")
+    @CrossOrigin(origins = "http://localhost:3000/")
     public ResponseEntity<UsuarioModel> currentUser(@AuthenticationPrincipal Usuario usuario) {
         UsuarioModel usuarioModel = usuarioModelAssembler.toModel(usuario);
         return ResponseEntity.ok(usuarioModel);

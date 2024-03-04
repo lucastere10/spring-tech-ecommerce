@@ -34,7 +34,7 @@ import br.com.tech.springtech.domain.service.CadastroUsuarioService;
 import br.com.tech.springtech.domain.service.CarrinhoService;
 
 @RestController
-@RequestMapping(value = "/usuarios")
+@RequestMapping(value = "/api/usuarios")
 public class UsuarioController implements UsuarioControllerOpenApi {
 
     @Autowired

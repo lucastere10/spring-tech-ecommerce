@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.tech.springtech.api.assembler.CarteiraInputDisassembler;
 import br.com.tech.springtech.api.assembler.CarteiraModelAssembler;
 import br.com.tech.springtech.api.dto.input.CarteiraInput;
 import br.com.tech.springtech.api.dto.model.CarteiraModel;
@@ -24,7 +23,7 @@ import br.com.tech.springtech.domain.service.CarteiraService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/carteiras")
+@RequestMapping("/api/carteiras")
 public class CarteiraController implements CarteiraControllerOpenApi {
 
     @Autowired

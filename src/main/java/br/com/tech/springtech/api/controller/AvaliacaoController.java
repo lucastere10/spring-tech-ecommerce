@@ -31,7 +31,7 @@ import br.com.tech.springtech.domain.service.CadastroAvaliacaoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/avaliacoes")
+@RequestMapping(value = "/api/avaliacoes")
 public class AvaliacaoController implements AvaliacaoControllerOpenApi {
 
     @Autowired

@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,8 @@ import br.com.tech.springtech.domain.service.CarrinhoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/produtos")
+@RequestMapping(value = "/api/produtos")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class ProdutoController implements ProdutoControllerOpenApi {
 
     @Autowired

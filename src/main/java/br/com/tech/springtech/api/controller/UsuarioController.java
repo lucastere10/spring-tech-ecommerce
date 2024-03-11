@@ -1,6 +1,8 @@
 package br.com.tech.springtech.api.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,11 +33,16 @@ import br.com.tech.springtech.api.dto.input.UsuarioInput;
 import br.com.tech.springtech.api.dto.model.CarrinhoModel;
 import br.com.tech.springtech.api.dto.model.UsuarioModel;
 import br.com.tech.springtech.api.openapi.UsuarioControllerOpenApi;
+import br.com.tech.springtech.core.security.RegisterDTO;
+import br.com.tech.springtech.domain.enums.UsuarioStatus;
+import br.com.tech.springtech.domain.exception.NegocioException;
 import br.com.tech.springtech.domain.model.Carrinho;
+import br.com.tech.springtech.domain.model.Carteira;
 import br.com.tech.springtech.domain.model.Usuario;
 import br.com.tech.springtech.domain.repository.UsuarioRepository;
 import br.com.tech.springtech.domain.service.CadastroUsuarioService;
 import br.com.tech.springtech.domain.service.CarrinhoService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/usuarios")
@@ -105,6 +116,14 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return carrinhoModelAssembler.toModel(carrinho);
     }
 
+    @GetMapping(value = "/carrinho", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CarrinhoModel buscarCarrinhoUsuarioLogado(@AuthenticationPrincipal Usuario usuario) {
+        Carrinho carrinho = carrinhoService.buscar(usuario.getUsuarioId());
+
+        return carrinhoModelAssembler.toModel(carrinho);
+    }
+
+
     @PutMapping(value = "/status/ativar/{usuarioId}")
     public UsuarioModel ativar(@PathVariable Long usuarioId) {
         Usuario usuarioAtual = cadastroUsuario.buscarOuFalhar(usuarioId);
@@ -135,6 +154,16 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         usuarioAtual = cadastroUsuario.bloquearUsuario(usuarioAtual);
 
         return usuarioModelAssembler.toModel(usuarioAtual);
+    }
+
+    @GetMapping("/verificar/{usuarioEmail}")
+    @CrossOrigin(origins = "http://localhost:3000/")
+    public ResponseEntity<Boolean> register(@PathVariable @Valid String usuarioEmail) {
+        Optional<Usuario> user = this.usuarioRepository.findByEmail(usuarioEmail);
+        if (user.isPresent()) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(false, HttpStatus.OK);
     }
 
 }

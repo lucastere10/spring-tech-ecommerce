@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.tech.springtech.api.assembler.UsuarioModelAssembler;
@@ -31,6 +31,8 @@ import br.com.tech.springtech.domain.model.Usuario;
 import br.com.tech.springtech.domain.repository.CarrinhoRepository;
 import br.com.tech.springtech.domain.repository.CarteiraRepository;
 import br.com.tech.springtech.domain.repository.UsuarioRepository;
+import dev.samstevens.totp.exceptions.CodeGenerationException;
+import dev.samstevens.totp.exceptions.QrGenerationException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -51,10 +53,13 @@ public class AuthenticationController implements AuthenticationControllerOpenApi
     private CarrinhoRepository carrinhoRepository;
 
     @Autowired
-    CarteiraRepository carteiraRepository;
+    private CarteiraRepository carteiraRepository;
 
     @Autowired
-    TokenService tokenService;
+    private TokenService tokenService;
+
+    @Autowired
+    private TotpService totpService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
@@ -65,8 +70,7 @@ public class AuthenticationController implements AuthenticationControllerOpenApi
             return ResponseEntity.ok(new LoginResponseDTO(token));
         } catch (AuthenticationException e) {
             // Handle unsuccessful login attempt here
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AcessoNegadoException("Credenciais não encontradas"));
+            throw new AcessoNegadoException("Credenciais não encontradas");
         }
     }
 
@@ -153,6 +157,23 @@ public class AuthenticationController implements AuthenticationControllerOpenApi
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
+    }
+
+    @GetMapping("/totp/setup")
+    public String setupTOTP() throws QrGenerationException {
+        return totpService.setupDevice();
+    }
+
+    @PostMapping("/totp/verify")
+    @CrossOrigin(origins = "http://localhost:3000/")
+    public String verify(@RequestParam String code) {
+        return totpService.verify(code);
+    }
+
+    @GetMapping("/totp/verifymobile")
+    @CrossOrigin(origins = "http://localhost:3000/")
+    public String verifyMobile() throws CodeGenerationException{
+        return totpService.verifyMobile();
     }
 
 }

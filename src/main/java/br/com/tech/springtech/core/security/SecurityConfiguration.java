@@ -30,6 +30,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/googleLogin").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/totp/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/auth/totp/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/produtos").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/produtos/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/auth/user").authenticated()
